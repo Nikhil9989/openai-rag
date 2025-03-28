@@ -8,7 +8,7 @@ A Retrieval-Augmented Generation (RAG) system built with OpenAI's models and Lan
 - Direct integration with Confluence to load pages and spaces
 - Support for document chunking and vector embeddings
 - Interactive query interface
-- Web UI using Streamlit (optional)
+- Web UI using Streamlit
 
 ## Prerequisites
 
@@ -45,22 +45,86 @@ CONFLUENCE_API_TOKEN=your_api_token
 CONFLUENCE_SPACE_KEY=TEAM
 ```
 
+The Confluence Space Key is a unique identifier for a specific space in your Confluence instance. It's typically a short, all-uppercase code that you can find in the URL when viewing the space (e.g., `/spaces/TEAM/`).
+
 ## Usage
 
-### Basic RAG System
+### SQLite Issue Solution
+
+If you encounter an error related to SQLite version, use the FAISS implementations instead:
+
+```bash
+# Basic RAG with FAISS
+python faiss_rag.py
+
+# Confluence integration with FAISS
+python faiss_confluence_rag.py
+
+# Web UI with FAISS
+streamlit run faiss_app.py
+```
+
+These files use FAISS vector store which doesn't have SQLite dependencies.
+
+### Basic RAG System (ChromaDB)
 
 ```bash
 python rag.py
 ```
 
-### Confluence Integration
+### Confluence Integration (ChromaDB)
 
 ```bash
 python confluence_rag.py
 ```
 
-### Web Interface (Optional)
+### Web Interface (ChromaDB)
 
 ```bash
 streamlit run app.py
 ```
+
+## Project Structure
+
+- `rag.py`: Basic RAG implementation with ChromaDB
+- `confluence_loader.py`: Utility for loading Confluence content
+- `confluence_rag.py`: RAG system with Confluence integration (ChromaDB)
+- `app.py`: Streamlit web interface with ChromaDB
+
+- `faiss_rag.py`: Basic RAG implementation with FAISS
+- `faiss_confluence_rag.py`: RAG system with Confluence integration (FAISS)
+- `faiss_app.py`: Streamlit web interface with FAISS
+
+- `requirements.txt`: Project dependencies
+- `.env.example`: Template for environment variables
+
+## Troubleshooting
+
+If you get errors about SQLite version:
+
+1. Switch to the FAISS implementations that don't require SQLite
+2. Or try to use ChromaDB with an in-memory storage by modifying the code:
+
+```python
+from chromadb.config import Settings
+
+# Create custom ChromaDB settings to use in-memory storage
+chroma_settings = Settings(
+    chroma_db_impl="duckdb+parquet",
+    persist_directory="./chroma_db",
+    anonymized_telemetry=False
+)
+
+# Use this in Chroma initialization
+vectordb = Chroma.from_documents(
+    documents=splits,
+    embedding=embeddings,
+    collection_name=collection_name,
+    persist_directory="./chroma_db",
+    client_settings=chroma_settings  # Add this line
+)
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
