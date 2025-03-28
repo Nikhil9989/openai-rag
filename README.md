@@ -10,6 +10,13 @@ A Retrieval-Augmented Generation (RAG) system built with OpenAI's models and Lan
 - Interactive query interface
 - Web UI using Streamlit
 
+## Documentation
+
+📚 Check out our comprehensive documentation:
+
+- [RAG Overview](docs/RAG_Overview.md) - High-level explanation of the RAG implementation
+- [RAG Deep Dive](docs/RAG_Deep_Dive.md) - Detailed explanation of each component and enhancement opportunities
+
 ## Prerequisites
 
 - Python 3.8+
