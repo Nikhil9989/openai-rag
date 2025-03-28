@@ -1,0 +1,20 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+ENV/
+
+# Vector database
+chroma_db/
+
+# Temporary files
+temp_*
+
+# Sample data
+data.txt
